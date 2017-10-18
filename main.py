@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/json', methods=['POST'])
 def post_json():
-    data = json.loads(request.get_json())
+    data = json.loads(request.data)
 
     points = data['points']
     points_list = []
