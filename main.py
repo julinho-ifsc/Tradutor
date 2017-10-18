@@ -23,8 +23,8 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe(robot + '/#')
 
 def on_message(client, userdata, msg):
-    topic = filter(not_empty, msg.topic.split('/'))
-    print(json.dumps({(topic[1]): int((msg.payload))}))
+    topic = list(filter(not_empty, msg.topic.split('/')))
+    print(json.dumps({(topic[1]): str(msg.payload.decode('utf-8'))}))
 
 if __name__ == '__main__':
     try:
