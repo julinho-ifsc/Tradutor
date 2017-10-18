@@ -24,5 +24,6 @@ RUN chmod 0755 /docker-entrypoint.sh && \
 
 WORKDIR "/tradutor"
 USER "tradutor"
+EXPOSE 3000
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["python", "/main.py"]
