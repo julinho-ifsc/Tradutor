@@ -1,4 +1,4 @@
-import os
+import os, json
 import paho.mqtt.publish as publish
 from flask import Flask, request, jsonify
 
@@ -6,23 +6,23 @@ app = Flask(__name__)
 
 @app.route('/json', methods=['POST'])
 def post_json():
-    dados = request.get_json()
-    lista_de_pontos = []
-    for points in dados['points']:
-        lista_de_pontos.append(points['rfid'] + '-' + points['action'])
-    final = ';'.join(lista_de_pontos)
-    publish.single(robot + '/rota', final, hostname=broker)
+    data = json.loads(request.get_json())
+
+    points = data['points']
+    points_list = []
+
+    for point in points:
+        points_list.append(point['rfid'] + '-' + point['action'])
+
+    message = ';'.join(points_list)
+    publish.single(robot + '/rota', message, hostname=broker)
+
     return jsonify(message='JSON posted')
 
 if __name__ == '__main__':
-    try:
-        robot = os.environ['ROBOT']
-    except:
-        robot = 'julinho'
+    robot = os.getenv('ROBOT', 'julinho')
+    broker = os.getenv('MQTT_BROKER', 'mqtt.sj.ifsc.edu.br')
+    env = os.getenv('PYTHON_ENV', 'development')
+    debug = False if env == 'production' else True
 
-    try:
-        broker = os.environ['MQTT_BROKER']
-    except:
-        broker = 'mqtt.sj.ifsc.edu.br'
-
-    app.run(host='0.0.0.0', port=3000, debug=True)
+    app.run(host='0.0.0.0', port=3000, debug=debug)

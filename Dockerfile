@@ -22,6 +22,8 @@ RUN chmod 0755 /docker-entrypoint.sh && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+ENV PYTHON_ENV production
+
 WORKDIR "/tradutor"
 USER "tradutor"
 EXPOSE 3000
