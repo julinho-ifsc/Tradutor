@@ -21,7 +21,7 @@ def post_json():
 
 if __name__ == '__main__':
     robot = os.getenv('ROBOT', 'julinho')
-    broker = os.getenv('MQTT_BROKER', 'mqtt.sj.ifsc.edu.br')
+    broker = os.getenv('MQTT_BROKER', 'nuvem2.sj.ifsc.edu.br')
     env = os.getenv('PYTHON_ENV', 'development')
     debug = False if env == 'production' else True
 
